@@ -1,0 +1,31 @@
+version: '3'
+services:
+
+  influx:
+    image: influxdb:1.8.9
+    ports:
+     - "8083:8083"
+     - "8086:8086"
+    environment:
+     - INFLUXDB_USER=user
+     - INFLUXDB_PASS=pass
+     - INFLUXDB_DB=flight
+    volumes:
+     - /etc/localtime:/etc/localtime:ro      
+     - /etc/timezone:/etc/timezone:ro
+     
+  grafana:
+    image: grafana/grafana
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_NAME: Main Org.
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+    volumes:
+      - /home/luca/Progetti/ProgettoBigData/visualization/grafana/provisioning/:/etc/grafana/provisioning/
+      - /etc/localtime:/etc/localtime:ro      
+      - /etc/timezone:/etc/timezone:ro
+
+    ports:
+     - "3000:3000"
+    depends_on:
+     - influx

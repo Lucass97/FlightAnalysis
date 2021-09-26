@@ -1,0 +1,55 @@
+version: "3.3"
+networks:
+  net:
+
+services:
+ 
+  cassandra1:
+    image: 'bitnami/cassandra:latest'   # better to use a specific version, if you want to control upgrades
+    container_name: cassandra1
+    hostname: cassandra1
+    networks:
+      - net
+    ports:
+      - "7000:7000"
+      - "9042:9042"  # Expose native binary CQL port for your apps
+    volumes:
+      - /home/luca/Progetti/ProgettoBigData/cassandra/schema.cql:/schema.cql  
+      - /home/luca/Progetti/ProgettoBigData/cassandra/conf:/etc/cassandra/   # Use your own config files for full control
+    environment: &environment    # Declare and save environments variables into "environment"
+        CASSANDRA_SEEDS: "cassandra1,cassandra2"    # The first two nodes will be seeds
+        CASSANDRA_CLUSTER_NAME: ServingLayer
+
+        # By default, Cassandra autodetects the available host memory and takes as much as it can.
+        # Therefore, memory options are mandatory if multiple Cassandras are launched in the same node.
+        MAX_HEAP_SIZE: 1G
+        HEAP_NEWSIZE: 200M
+ 
+  cassandra2:
+    image: 'bitnami/cassandra:latest'
+    container_name: cassandra2
+    hostname: cassandra2
+    networks:
+      - net
+    ports:
+      - "7001:7000"
+      - "9043:9042"  # Expose native binary CQL port for your apps
+    volumes:
+      - /home/luca/Progetti/ProgettoBigData/cassandra/schema.cql:/schema.cql   
+      - /home/luca/Progetti/ProgettoBigData/cassandra/conf:/etc/cassandra   # Use your own config files for full control
+    environment: *environment    # point to "environment" to use the same environment variables as cassandra1
+
+  cassandra3:
+    image: 'bitnami/cassandra:latest'
+    container_name: cassandra3
+    hostname: cassandra3
+    networks:
+      - net
+    ports:
+      - "7002:7000"
+      - "9044:9042"  # Expose native binary CQL port for your apps
+    volumes:
+      - /home/luca/Progetti/ProgettoBigData/cassandra/schema.cql:/schema.cql   
+      - /home/luca/Progetti/ProgettoBigData/cassandra/conf:/etc/cassandra   # Use your own config files for full control
+    environment: *environment    # point to "environment" to use the same environment variables as cassandra1
+
