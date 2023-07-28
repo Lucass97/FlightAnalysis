@@ -8,7 +8,7 @@ cluster_seeds = ['localhost:9042', 'localhost:9043']
 
 spark = SparkSession \
     .builder \
-    .appName("OnlyFans BatchAnalyzer") \
+    .appName("Flight Batch Analysis") \
     .config("spark.cassandra.connection.host", ','.join(cluster_seeds)) \
     .config("spark.cassandra.auth.username", "cassandra") \
     .config("spark.cassandra.auth.password", "cassandra") \

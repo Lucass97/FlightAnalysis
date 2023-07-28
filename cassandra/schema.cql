@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS BatchKeySpace.max_consec_delay_year ("OP_CARRIER" tex
 CREATE TABLE IF NOT EXISTS BatchKeySpace.max_consec_delay_year_src_dest("ORIGIN" text, "DEST" text, "YEAR" bigint, "MAX_GIORNI" bigint, primary key ("ORIGIN", "DEST", "YEAR"));
 
 CREATE TABLE IF NOT EXISTS BatchKeySpace.src_dest_canc_code ("ORIGIN" text, "DEST" text, "YEAR" bigint,"CANCELLATION_CODE" text, "NUM_CANCELLED" bigint, primary key ("ORIGIN", "DEST", "YEAR", "CANCELLATION_CODE"));
+
 //Select from table
 SELECT * FROM StreamingKeySpace.Flight_Data;
 

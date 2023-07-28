@@ -10,7 +10,7 @@ cluster_seeds = ['localhost:9042', 'localhost:9043']
 
 spark = SparkSession \
     .builder \
-    .appName("OnlyFans BatchAnalyzer") \
+    .appName("Flight Batch Analysis") \
     .config("spark.cassandra.connection.host", ','.join(cluster_seeds)) \
     .config("spark.cassandra.auth.username", "cassandra") \
     .config("spark.cassandra.auth.password", "cassandra") \
@@ -51,6 +51,7 @@ pipelineFit = pipeline.fit(train_data)
 result = pipelineFit.transform(test_data)
 predictionAndLabels = result.select("prediction", "IS_DELAY")
 evaluator = MulticlassClassificationEvaluator(metricName="accuracy").setLabelCol("IS_DELAY")
+
 print("Test set accuracy = " + str(evaluator.evaluate(predictionAndLabels)))
 
 predictionAndLabels.show(100)
@@ -91,6 +92,7 @@ pipelineFit = pipeline.fit(train_data)
 result = pipelineFit.transform(test_data)
 predictionAndLabels = result.select("prediction", "CANCELLED")
 evaluator = MulticlassClassificationEvaluator(metricName="accuracy").setLabelCol("CANCELLED")
+
 print("Test set accuracy = " + str(evaluator.evaluate(predictionAndLabels)))
 
 predictionAndLabels.show(100)
